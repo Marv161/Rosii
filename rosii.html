@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rosii - Nada es más brillante que tú</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --purple-glow: #a855f7;
+            --rose-gold: #b76e79;
+            --rose-gold-light: #e0b0ff;
+            --text-gradient: linear-gradient(45deg, #d4af37, #b76e79, #800080, #b76e79);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            /* Se usa repeat para asegurar la máxima calidad del gif de fondo */
+            background-image: url('https://i.ibb.co/2Dc25XJ/rosifond.gif');
+            background-repeat: repeat;
+            background-attachment: fixed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Playfair Display', serif;
+            overflow-x: hidden;
+        }
+
+        .main-container {
+            text-align: center;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            border-radius: 30px;
+            border: 2px solid rgba(183, 110, 121, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            max-width: 90%;
+            width: 500px;
+        }
+
+        /* EFECTO: namecolor-glow-grad-wave */
+        .name-title {
+            font-family: 'Great Vibes', cursive;
+            font-size: 5rem;
+            margin-bottom: 20px;
+            position: relative;
+            display: inline-block;
+            
+            /* Gradient & Color */
+            background: var(--text-gradient);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            
+            /* 3D Effect using shadows */
+            text-shadow: 
+                2px 2px 0px rgba(183, 110, 121, 0.5),
+                4px 4px 0px rgba(0, 0, 0, 0.1);
+            
+            filter: drop-shadow(0 0 10px var(--purple-glow));
+            
+            /* Animations */
+            animation: 
+                wave 3s ease-in-out infinite,
+                gradientShift 5s linear infinite,
+                glowPulse 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes wave {
+            0%, 100% { transform: translateY(0) rotate(-2deg); }
+            50% { transform: translateY(-15px) rotate(2deg); }
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes glowPulse {
+            from { filter: drop-shadow(0 0 5px var(--purple-glow)); }
+            to { filter: drop-shadow(0 0 20px #ff00ff); }
+        }
+
+        /* Cuadro de imagen con Glow Púrpura */
+        .image-card {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 30px;
+            background: rgba(0, 0, 0, 0.2);
+            border: 3px solid var(--rose-gold);
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 0 25px 5px var(--purple-glow);
+            transition: transform 0.3s ease;
+        }
+
+        .image-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 40px 10px #bf7af0;
+        }
+
+        /* Animación de la secuencia PNG */
+        .sprite-anim {
+            width: 150px; /* Ajusta según el tamaño de un solo cuadro */
+            height: 150px; /* Ajusta según el tamaño de un solo cuadro */
+            background-image: url('https://xatimg.com/image/CZPZ4lP1Uv6Q.png');
+            background-repeat: no-repeat;
+            background-size: auto 100%;
+            /* Calculando la animación: 
+               Si la imagen tiene por ejemplo 10 frames, 
+               el background-position debe ir de 0 a -1500px 
+            */
+            animation: playSprite 1.5s steps(10) infinite;
+        }
+
+        @keyframes playSprite {
+            from { background-position: 0; }
+            to { background-position: -1500px; } /* Ajustar este valor según el ancho total de tu secuencia */
+        }
+
+        /* Texto inferior */
+        .subtitle {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.8rem;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5), 0 0 10px var(--rose-gold);
+            padding: 10px;
+            position: relative;
+        }
+
+        .subtitle::after {
+            content: '';
+            display: block;
+            width: 50%;
+            height: 2px;
+            background: var(--rose-gold);
+            margin: 10px auto;
+            border-radius: 2px;
+            box-shadow: 0 0 10px var(--rose-gold);
+        }
+
+        /* Detalles decorativos (flores simuladas) */
+        .decoration {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .flower1 { top: 10%; left: 10%; animation: float 6s infinite; }
+        .flower2 { bottom: 10%; right: 10%; animation: float 5s infinite reverse; }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(10px, 20px) rotate(20deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .name-title { font-size: 3.5rem; }
+            .subtitle { font-size: 1.4rem; }
+            .image-card { width: 150px; height: 150px; }
+            .sprite-anim { width: 100px; height: 100px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="decoration flower1">🌸</div>
+    <div class="decoration flower2">🌺</div>
+
+    <div class="main-container">
+        <h1 class="name-title">Rosii</h1>
+        
+        <div class="image-card">
+            <div class="sprite-anim"></div>
+        </div>
+
+        <p class="subtitle">Nada es mas brillante que TÚ✨️</p>
+    </div>
+
+    <script>
+        // Script opcional para ajustar dinámicamente el sprite si se conoce el ancho real
+        window.onload = function() {
+            const sprite = document.querySelector('.sprite-anim');
+            const img = new Image();
+            img.src = 'https://xatimg.com/image/CZPZ4lP1Uv6Q.png';
+            img.onload = function() {
+                // Si el ancho de la imagen es mayor al del contenedor, calculamos frames
+                // Asumiendo que los frames son cuadrados (150x150)
+                const frameWidth = 150; 
+                const totalWidth = img.width;
+                const frames = totalWidth / frameWidth;
+                
+                // Actualizamos la animación CSS dinámicamente para que sea perfecta
+                sprite.style.animation = `playSprite 1.2s steps(${Math.floor(frames)}) infinite`;
+                
+                const style = document.createElement('style');
+                style.innerHTML = `
+                    @keyframes playSprite {
+                        from { background-position: 0; }
+                        to { background-position: -${totalWidth}px; }
+                    }
+                `;
+                document.head.appendChild(style);
+            };
+        };
+    </script>
+</body>
+</html>
