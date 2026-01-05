@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -12,7 +12,8 @@
             --purple-glow: #a855f7;
             --rose-gold: #b76e79;
             --rose-gold-light: #e0b0ff;
-            --text-gradient: linear-gradient(45deg, #d4af37, #b76e79, #800080, #b76e79);
+            --intro-bg: linear-gradient(135deg, #a2d2ff 0%, #ffafbd 100%);
+            --name-wave-grad: linear-gradient(-45deg, rgb(19, 0, 38) 3%, rgb(19, 0, 45) 7.7%, rgb(19, 0, 52) 12.4%, rgb(27, 0, 61) 17.1%, rgb(35, 0, 71) 21.8%, rgb(33, 0, 81) 26.5%, rgb(31, 0, 91) 31.2%, rgb(135, 16, 132) 35.9%, rgb(239, 32, 174) 40.6%, rgb(129, 16, 106) 45.3%, rgb(19, 0, 38) 50%);
         }
 
         * {
@@ -22,7 +23,6 @@
         }
 
         body {
-            /* Se usa repeat para asegurar la máxima calidad del gif de fondo */
             background-image: url('https://i.ibb.co/2Dc25XJ/rosifond.gif');
             background-repeat: repeat;
             background-attachment: fixed;
@@ -31,52 +31,104 @@
             align-items: center;
             min-height: 100vh;
             font-family: 'Playfair Display', serif;
-            overflow-x: hidden;
+            overflow: hidden; /* Evitar scroll durante el intro */
         }
 
+        /* PANTALLA DE INTRODUCCIÓN */
+        #intro-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--intro-bg);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 1s ease, visibility 1s;
+        }
+
+        .intro-name {
+            font-family: 'Great Vibes', cursive;
+            font-size: 7rem;
+            background: var(--name-wave-grad);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: nameWave 4s linear infinite;
+            filter: drop-shadow(0 0 15px rgba(239, 32, 174, 0.5));
+            margin-bottom: 30px;
+            padding: 20px; /* Evita que se corte el resplandor */
+        }
+
+        @keyframes nameWave {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
+        }
+
+        .enter-btn {
+            padding: 15px 40px;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.8rem;
+            color: white;
+            background: rgba(183, 110, 121, 0.8);
+            border: 2px solid white;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .enter-btn:hover {
+            transform: scale(1.1);
+            background: #b76e79;
+            box-shadow: 0 0 30px var(--purple-glow);
+        }
+
+        /* CONTENIDO PRINCIPAL */
         .main-container {
             text-align: center;
             padding: 40px;
             background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(8px);
             border-radius: 30px;
             border: 2px solid rgba(183, 110, 121, 0.3);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             max-width: 90%;
             width: 500px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 1s ease 0.5s;
         }
 
-        /* EFECTO: namecolor-glow-grad-wave */
+        .main-container.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Ajuste de Rosii para que no se vea cortado */
         .name-title {
             font-family: 'Great Vibes', cursive;
-            font-size: 5rem;
-            margin-bottom: 20px;
+            font-size: 5.5rem;
+            margin-bottom: 10px;
             position: relative;
             display: inline-block;
-            
-            /* Gradient & Color */
-            background: var(--text-gradient);
+            padding: 15px 30px; /* Espacio extra para el glow y 3D */
+            line-height: 1.2;
+            background: linear-gradient(45deg, #d4af37, #b76e79, #800080, #b76e79);
             background-size: 300% 300%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            
-            /* 3D Effect using shadows */
-            text-shadow: 
-                2px 2px 0px rgba(183, 110, 121, 0.5),
-                4px 4px 0px rgba(0, 0, 0, 0.1);
-            
-            filter: drop-shadow(0 0 10px var(--purple-glow));
-            
-            /* Animations */
-            animation: 
-                wave 3s ease-in-out infinite,
-                gradientShift 5s linear infinite,
-                glowPulse 2s ease-in-out infinite alternate;
+            text-shadow: 2px 2px 0px rgba(183, 110, 121, 0.3);
+            filter: drop-shadow(0 0 15px var(--purple-glow));
+            animation: wave 3s ease-in-out infinite, gradientShift 5s linear infinite;
         }
 
         @keyframes wave {
-            0%, 100% { transform: translateY(0) rotate(-2deg); }
-            50% { transform: translateY(-15px) rotate(2deg); }
+            0%, 100% { transform: translateY(0) rotate(-1deg); }
+            50% { transform: translateY(-10px) rotate(1deg); }
         }
 
         @keyframes gradientShift {
@@ -85,12 +137,6 @@
             100% { background-position: 0% 50%; }
         }
 
-        @keyframes glowPulse {
-            from { filter: drop-shadow(0 0 5px var(--purple-glow)); }
-            to { filter: drop-shadow(0 0 20px #ff00ff); }
-        }
-
-        /* Cuadro de imagen con Glow Púrpura */
         .image-card {
             width: 200px;
             height: 200px;
@@ -104,85 +150,105 @@
             overflow: hidden;
             position: relative;
             box-shadow: 0 0 25px 5px var(--purple-glow);
-            transition: transform 0.3s ease;
         }
 
-        .image-card:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 40px 10px #bf7af0;
-        }
-
-        /* Animación de la secuencia PNG */
         .sprite-anim {
-            width: 150px; /* Ajusta según el tamaño de un solo cuadro */
-            height: 150px; /* Ajusta según el tamaño de un solo cuadro */
+            width: 150px;
+            height: 150px;
             background-image: url('https://xatimg.com/image/CZPZ4lP1Uv6Q.png');
             background-repeat: no-repeat;
             background-size: auto 100%;
-            /* Calculando la animación: 
-               Si la imagen tiene por ejemplo 10 frames, 
-               el background-position debe ir de 0 a -1500px 
-            */
             animation: playSprite 1.5s steps(10) infinite;
         }
 
-        @keyframes playSprite {
-            from { background-position: 0; }
-            to { background-position: -1500px; } /* Ajustar este valor según el ancho total de tu secuencia */
-        }
-
-        /* Texto inferior */
         .subtitle {
             font-family: 'Dancing Script', cursive;
             font-size: 1.8rem;
             color: white;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.5), 0 0 10px var(--rose-gold);
-            padding: 10px;
-            position: relative;
         }
 
-        .subtitle::after {
-            content: '';
-            display: block;
-            width: 50%;
-            height: 2px;
-            background: var(--rose-gold);
-            margin: 10px auto;
-            border-radius: 2px;
-            box-shadow: 0 0 10px var(--rose-gold);
+        /* REPRODUCTOR DE MÚSICA */
+        .music-player {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(19, 0, 38, 0.8);
+            border: 1px solid var(--rose-gold);
+            padding: 10px 15px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            color: white;
+            box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
+            z-index: 500;
+            width: 250px;
+            overflow: hidden;
         }
 
-        /* Detalles decorativos (flores simuladas) */
+        .music-icon {
+            font-size: 1.5rem;
+            margin-right: 15px;
+            color: #ff69b4; /* Rosa Morat */
+        }
+
+        .track-info {
+            flex: 1;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .track-name {
+            display: inline-block;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.1rem;
+            padding-left: 100%;
+            animation: marquee 15s linear infinite;
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
+
         .decoration {
             position: absolute;
             font-size: 2rem;
             opacity: 0.6;
             pointer-events: none;
         }
-
         .flower1 { top: 10%; left: 10%; animation: float 6s infinite; }
         .flower2 { bottom: 10%; right: 10%; animation: float 5s infinite reverse; }
 
         @keyframes float {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            50% { transform: translate(10px, 20px) rotate(20deg); }
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(10px, 20px); }
         }
 
-        /* Responsive */
         @media (max-width: 480px) {
-            .name-title { font-size: 3.5rem; }
-            .subtitle { font-size: 1.4rem; }
-            .image-card { width: 150px; height: 150px; }
-            .sprite-anim { width: 100px; height: 100px; }
+            .intro-name { font-size: 4rem; }
+            .name-title { font-size: 4rem; }
         }
     </style>
 </head>
 <body>
 
+    <!-- Intro Screen -->
+    <div id="intro-screen">
+        <h1 class="intro-name">Rosii</h1>
+        <button class="enter-btn" onclick="startExperience()">Entrar</button>
+    </div>
+
+    <!-- Audio Element -->
+    <audio id="bg-music" loop>
+        <source src="musica.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Main Content -->
     <div class="decoration flower1">🌸</div>
     <div class="decoration flower2">🌺</div>
 
-    <div class="main-container">
+    <div class="main-container" id="main-content">
         <h1 class="name-title">Rosii</h1>
         
         <div class="image-card">
@@ -192,21 +258,43 @@
         <p class="subtitle">Nada es mas brillante que TÚ✨️</p>
     </div>
 
+    <!-- Mini Player -->
+    <div class="music-player">
+        <div class="music-icon">🌹</div>
+        <div class="track-info">
+            <span class="track-name">Morat, Feid - Salir Con Vida 🌹 • Reproduciendo ahora... </span>
+        </div>
+    </div>
+
     <script>
-        // Script opcional para ajustar dinámicamente el sprite si se conoce el ancho real
+        function startExperience() {
+            const intro = document.getElementById('intro-screen');
+            const main = document.getElementById('main-content');
+            const audio = document.getElementById('bg-music');
+
+            // Ocultar intro
+            intro.style.opacity = '0';
+            intro.style.visibility = 'hidden';
+            
+            // Mostrar contenido principal
+            main.classList.add('visible');
+            document.body.style.overflow = 'auto';
+
+            // Reproducir música
+            audio.play().catch(e => console.log("Error al reproducir audio:", e));
+        }
+
+        // Ajuste dinámico de la animación del personaje
         window.onload = function() {
             const sprite = document.querySelector('.sprite-anim');
             const img = new Image();
             img.src = 'https://xatimg.com/image/CZPZ4lP1Uv6Q.png';
             img.onload = function() {
-                // Si el ancho de la imagen es mayor al del contenedor, calculamos frames
-                // Asumiendo que los frames son cuadrados (150x150)
                 const frameWidth = 150; 
                 const totalWidth = img.width;
-                const frames = totalWidth / frameWidth;
+                const frames = Math.floor(totalWidth / frameWidth);
                 
-                // Actualizamos la animación CSS dinámicamente para que sea perfecta
-                sprite.style.animation = `playSprite 1.2s steps(${Math.floor(frames)}) infinite`;
+                sprite.style.animation = `playSprite 1.2s steps(${frames}) infinite`;
                 
                 const style = document.createElement('style');
                 style.innerHTML = `
